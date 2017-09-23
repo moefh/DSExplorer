@@ -29,6 +29,9 @@ Partial Class MainWindow
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.treeFiles = New System.Windows.Forms.TreeView()
+        Me.TabView = New System.Windows.Forms.TabControl()
+        Me.TabPageHexView = New System.Windows.Forms.TabPage()
+        Me.HexViewer = New DSExplorer.HexViewControl()
         Me.txtInfo = New System.Windows.Forms.TextBox()
         Me.StatusStrip = New System.Windows.Forms.StatusStrip()
         Me.menuFiles = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -36,20 +39,23 @@ Partial Class MainWindow
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.miExpandAll = New System.Windows.Forms.ToolStripMenuItem()
         Me.miReload = New System.Windows.Forms.ToolStripMenuItem()
-        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer1.Panel1.SuspendLayout()
-        Me.SplitContainer1.Panel2.SuspendLayout()
-        Me.SplitContainer1.SuspendLayout()
-        CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer2.Panel1.SuspendLayout()
-        Me.SplitContainer2.SuspendLayout()
-        Me.menuFiles.SuspendLayout()
-        Me.SuspendLayout()
+        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitContainer1.Panel1.SuspendLayout
+        Me.SplitContainer1.Panel2.SuspendLayout
+        Me.SplitContainer1.SuspendLayout
+        CType(Me.SplitContainer2,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.SplitContainer2.Panel1.SuspendLayout
+        Me.SplitContainer2.Panel2.SuspendLayout
+        Me.SplitContainer2.SuspendLayout
+        Me.TabView.SuspendLayout
+        Me.TabPageHexView.SuspendLayout
+        Me.menuFiles.SuspendLayout
+        Me.SuspendLayout
         '
         'txtDataFolder
         '
-        Me.txtDataFolder.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtDataFolder.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.txtDataFolder.Location = New System.Drawing.Point(83, 12)
         Me.txtDataFolder.MinimumSize = New System.Drawing.Size(50, 4)
         Me.txtDataFolder.Name = "txtDataFolder"
@@ -58,19 +64,19 @@ Partial Class MainWindow
         '
         'btnSelect
         '
-        Me.btnSelect.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnSelect.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.btnSelect.Location = New System.Drawing.Point(843, 10)
         Me.btnSelect.Name = "btnSelect"
         Me.btnSelect.Size = New System.Drawing.Size(89, 23)
         Me.btnSelect.TabIndex = 1
         Me.btnSelect.Text = "Select..."
-        Me.btnSelect.UseVisualStyleBackColor = True
+        Me.btnSelect.UseVisualStyleBackColor = true
         '
         'Label1
         '
-        Me.Label1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label1.AutoSize = True
+        Me.Label1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.Label1.AutoSize = true
         Me.Label1.Location = New System.Drawing.Point(12, 15)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(65, 13)
@@ -79,9 +85,9 @@ Partial Class MainWindow
         '
         'SplitContainer1
         '
-        Me.SplitContainer1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.SplitContainer1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.SplitContainer1.Location = New System.Drawing.Point(12, 38)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
@@ -106,27 +112,68 @@ Partial Class MainWindow
         'SplitContainer2.Panel1
         '
         Me.SplitContainer2.Panel1.Controls.Add(Me.treeFiles)
+        '
+        'SplitContainer2.Panel2
+        '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.TabView)
         Me.SplitContainer2.Size = New System.Drawing.Size(920, 383)
-        Me.SplitContainer2.SplitterDistance = 352
+        Me.SplitContainer2.SplitterDistance = 324
         Me.SplitContainer2.TabIndex = 0
         '
         'treeFiles
         '
-        Me.treeFiles.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.treeFiles.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.treeFiles.Location = New System.Drawing.Point(3, 3)
         Me.treeFiles.Name = "treeFiles"
-        Me.treeFiles.Size = New System.Drawing.Size(346, 377)
+        Me.treeFiles.Size = New System.Drawing.Size(318, 377)
         Me.treeFiles.TabIndex = 0
+        '
+        'TabView
+        '
+        Me.TabView.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.TabView.Controls.Add(Me.TabPageHexView)
+        Me.TabView.Location = New System.Drawing.Point(3, 3)
+        Me.TabView.Name = "TabView"
+        Me.TabView.SelectedIndex = 0
+        Me.TabView.Size = New System.Drawing.Size(586, 377)
+        Me.TabView.TabIndex = 0
+        '
+        'TabPageHexView
+        '
+        Me.TabPageHexView.Controls.Add(Me.HexViewer)
+        Me.TabPageHexView.Location = New System.Drawing.Point(4, 22)
+        Me.TabPageHexView.Name = "TabPageHexView"
+        Me.TabPageHexView.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPageHexView.Size = New System.Drawing.Size(578, 351)
+        Me.TabPageHexView.TabIndex = 1
+        Me.TabPageHexView.Text = "Hex Viewer"
+        Me.TabPageHexView.UseVisualStyleBackColor = true
+        '
+        'HexViewer
+        '
+        Me.HexViewer.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.HexViewer.AutoScroll = true
+        Me.HexViewer.AutoScrollMinSize = New System.Drawing.Size(1, 0)
+        Me.HexViewer.Data = Nothing
+        Me.HexViewer.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.HexViewer.Location = New System.Drawing.Point(0, 0)
+        Me.HexViewer.Name = "HexViewer"
+        Me.HexViewer.Size = New System.Drawing.Size(575, 348)
+        Me.HexViewer.TabIndex = 0
         '
         'txtInfo
         '
-        Me.txtInfo.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtInfo.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.txtInfo.Location = New System.Drawing.Point(3, 3)
-        Me.txtInfo.Multiline = True
+        Me.txtInfo.Multiline = true
         Me.txtInfo.Name = "txtInfo"
         Me.txtInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.txtInfo.Size = New System.Drawing.Size(914, 157)
@@ -171,7 +218,7 @@ Partial Class MainWindow
         '
         'MainWindow
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(944, 610)
         Me.Controls.Add(Me.StatusStrip)
@@ -181,19 +228,22 @@ Partial Class MainWindow
         Me.Controls.Add(Me.txtDataFolder)
         Me.Name = "MainWindow"
         Me.Text = "DarkSouls Explorer"
-        Me.SplitContainer1.Panel1.ResumeLayout(False)
-        Me.SplitContainer1.Panel2.ResumeLayout(False)
-        Me.SplitContainer1.Panel2.PerformLayout()
-        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer1.ResumeLayout(False)
-        Me.SplitContainer2.Panel1.ResumeLayout(False)
-        CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer2.ResumeLayout(False)
-        Me.menuFiles.ResumeLayout(False)
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
+        Me.SplitContainer1.Panel1.ResumeLayout(false)
+        Me.SplitContainer1.Panel2.ResumeLayout(false)
+        Me.SplitContainer1.Panel2.PerformLayout
+        CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).EndInit
+        Me.SplitContainer1.ResumeLayout(false)
+        Me.SplitContainer2.Panel1.ResumeLayout(false)
+        Me.SplitContainer2.Panel2.ResumeLayout(false)
+        CType(Me.SplitContainer2,System.ComponentModel.ISupportInitialize).EndInit
+        Me.SplitContainer2.ResumeLayout(false)
+        Me.TabView.ResumeLayout(false)
+        Me.TabPageHexView.ResumeLayout(false)
+        Me.menuFiles.ResumeLayout(false)
+        Me.ResumeLayout(false)
+        Me.PerformLayout
 
-    End Sub
+End Sub
 
     Friend WithEvents txtDataFolder As TextBox
     Friend WithEvents btnSelect As Button
@@ -208,4 +258,7 @@ Partial Class MainWindow
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
     Friend WithEvents miReload As ToolStripMenuItem
     Friend WithEvents miExpandAll As ToolStripMenuItem
+    Friend WithEvents TabView As TabControl
+    Friend WithEvents TabPageHexView As TabPage
+    Friend WithEvents HexViewer As HexViewControl
 End Class

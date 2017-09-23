@@ -73,6 +73,9 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HexViewControl.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MainWindow.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -95,6 +98,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="TreeNodeSorter.vb" />
     <Compile Include="WulfsExtractor.vb" />
   </ItemGroup>
   <ItemGroup>

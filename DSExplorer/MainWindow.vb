@@ -11,6 +11,7 @@ Public Class MainWindow
         updateUITimer.Interval = 200
         updateUITimer.Start()
 
+        treeFiles.TreeViewNodeSorter = New TreeNodeSorter()
         txtDataFolder.Text = My.Settings.StartFolder
         If txtDataFolder.Text <> "" Then
             reloadFileTree()
@@ -22,10 +23,10 @@ Public Class MainWindow
     End Sub
 
     Private Sub btnSelect_Click(sender As Object, e As EventArgs) Handles btnSelect.Click
-        Dim folderDlg As New FolderBrowserDialog()
-
-        folderDlg.ShowNewFolderButton = False
-        folderDlg.SelectedPath = My.Settings.StartFolder
+        Dim folderDlg As New FolderBrowserDialog With {
+            .ShowNewFolderButton = False,
+            .SelectedPath = My.Settings.StartFolder
+        }
 
         If folderDlg.ShowDialog() = Windows.Forms.DialogResult.OK Then
             My.Settings.StartFolder = folderDlg.SelectedPath
@@ -36,7 +37,7 @@ Public Class MainWindow
 
     End Sub
 
-    Private Function getFileName(ByVal path As String)
+    Private Function GetFileName(ByVal path As String)
         Dim slash As Integer = InStrRev(path, "\")
         If slash < 0 Then
             Return path
@@ -44,7 +45,7 @@ Public Class MainWindow
         Return Microsoft.VisualBasic.Right(path, path.Length - slash)
     End Function
 
-    Private Function getFileExt(ByVal path As String)
+    Private Function GetFileExt(ByVal path As String)
         Dim dot As Integer = InStrRev(path, ".")
         If dot < 0 Then
             Return path
@@ -52,7 +53,7 @@ Public Class MainWindow
         Return Microsoft.VisualBasic.Right(path, path.Length - dot)
     End Function
 
-    Private Sub reloadFileTree()
+    Private Sub ReloadFileTree()
         treeFiles.BeginUpdate()
         treeFiles.Nodes.Clear()
         Try
@@ -64,38 +65,68 @@ Public Class MainWindow
         Catch e As Exception
             MsgBox("Error loading files: " + e.Message)
         End Try
+        treeFiles.Sort()
         treeFiles.EndUpdate()
     End Sub
 
-    Private Sub addFile(ByVal file As String, ByVal nodes As TreeNodeCollection)
+    Private Sub AddFile(ByVal file As String, ByVal nodes As TreeNodeCollection)
+        If file.EndsWith("\filelist.txt") OrElse file.EndsWith(".bak") OrElse file.EndsWith(".info.txt") Then
+            Exit Sub
+        End If
+
         Dim node As TreeNode = nodes.Add(getFileName(file))
         node.Tag = file
-        reloadFileNode(node)
-    End Sub
-
-    Private Sub reloadFileNode(ByVal node As TreeNode)
-        node.Nodes.Clear()
         If Directory.Exists(node.Tag + ".extract") Then
             loadFolder(node.Tag + ".extract", node.Nodes)
         End If
     End Sub
 
-    Private Sub loadFolder(ByVal folder As String, ByRef nodes As TreeNodeCollection)
+    Private Sub LoadFolder(ByVal folder As String, ByRef nodes As TreeNodeCollection)
         For Each d In Directory.EnumerateDirectories(folder)
             If Not d.EndsWith(".extract") Then
                 Dim node As TreeNode = nodes.Add(getFileName(d))
-                loadFolder(d, node.Nodes)
+                LoadFolder(d, node.Nodes)
             End If
         Next
         For Each file In Directory.EnumerateFiles(folder)
             Dim filename As String = getFileName(file)
-            If filename <> "filelist.txt" And Not filename.EndsWith(".bak") And Not filename.EndsWith(".info.txt") Then
-                addFile(file, nodes)
-            End If
+            AddFile(file, nodes)
         Next
     End Sub
 
-    Private Sub updateUI() Handles updateUITimer.Tick
+    Private Sub UpdateFileNode(ByVal node As TreeNode)
+        If node Is Nothing OrElse node.Tag Is Nothing Then
+            Exit Sub
+        End If
+
+        Dim topNode = treeFiles.TopNode
+        treeFiles.BeginUpdate()
+        node.Nodes.Clear()
+        If Directory.Exists(node.Tag + ".extract") Then
+            loadFolder(node.Tag + ".extract", node.Nodes)
+        Else
+            Dim dirname As String = Microsoft.VisualBasic.Left(node.Tag, InStrRev(node.Tag, "\"))
+            UpdateNodeChildren(node.Parent, dirname)
+        End If
+        treeFiles.EndUpdate()
+        treeFiles.TopNode = topNode
+    End Sub
+
+    Private Sub UpdateNodeChildren(ByVal node As TreeNode, dirname As String)
+        Dim fileList As New HashSet(Of String)(Directory.EnumerateFiles(dirname))
+        For Each child In node.Nodes
+            If child.Tag IsNot Nothing AndAlso fileList.Contains(child.Tag) Then
+                fileList.Remove(child.Tag)
+            End If
+        Next
+
+        For Each file In fileList
+            AddFile(file, node.Nodes)
+        Next
+        treeFiles.Sort()
+    End Sub
+
+    Private Sub UpdateUI() Handles updateUITimer.Tick
         If extractor.isWorking Then
             btnSelect.Enabled = False
             menuFiles.Enabled = False
@@ -148,21 +179,16 @@ Public Class MainWindow
             If selNode.Tag Is Nothing Then
                 MsgBox("The selected item is not extractable.")
             Else
-                Dim thread As Thread = New Thread(AddressOf extract)
-                Dim data As ExtractData = New ExtractData()
-                data.filename = selNode.Tag
-                data.node = selNode
-                thread.Start(Data)
+                Dim filename As String = selNode.Tag
+                Dim thread As Thread = New Thread(Sub()
+                    extractor.extract(filename)
+                    Invoke(Sub()
+                        updateFileNode(selNode)
+                    End Sub)
+                End Sub)
+                thread.Start()
             End If
         End If
-    End Sub
-
-    Private Delegate Sub reloadFileNodeDelegate(ByVal node As TreeNode)
-
-    Private Sub extract(ByVal data As ExtractData)
-        extractor.extract(data.filename)
-        Dim reloadDelegate As New reloadFileNodeDelegate(AddressOf reloadFileNode)
-        Invoke(reloadDelegate, data.node)
     End Sub
 
     Private Sub miReload_Click(sender As Object, e As EventArgs) Handles miReload.Click
@@ -176,4 +202,24 @@ Public Class MainWindow
     Private Sub miExpandAll_Click(sender As Object, e As EventArgs) Handles miExpandAll.Click
         treeFiles.ExpandAll()
     End Sub
+
+    Private Sub treeFiles_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles treeFiles.AfterSelect
+        updateNodeDisplay(treeFiles.SelectedNode)
+    End Sub
+
+    Private Sub UpdateNodeDisplay(node as TreeNode)
+        If node Is Nothing OrElse node.Tag Is Nothing Then
+            Exit Sub
+        End If
+
+        Dim filename As String = node.Tag
+        Try
+            'hexDump(File.ReadAllBytes(filename))
+            HexViewer.Data = File.ReadAllBytes(filename)
+        Catch e As Exception
+            HexViewer.Text = "Error reading file '" & filename & "': " & e.Message
+            HexViewer.Data = Nothing
+        End Try
+    End Sub
+
 End Class
