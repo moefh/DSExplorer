@@ -148,7 +148,7 @@ Public Class DDSImage
 
     Private Sub InterpolateColor(ByVal color As UInteger(,), ByVal src1 As Integer, ByVal src2 As Integer, ByVal dest As Integer)
         For i = 0 To 2
-            color(dest, i) = (2 * color(src1, i) + color(src2, i)) / 3
+            color(dest, i) = (2 * color(src1, i) + color(src2, i)) \ 3
         Next
     End Sub
 
@@ -166,13 +166,13 @@ Public Class DDSImage
         DecodeColor(c0, col, 0)
         DecodeColor(c1, col, 1)
 
-        If (c0 > c1) Or (compressFormat = ddsCompressBC3) Then
+        If (c0 > c1) Or (compressFormat <> ddsCompressBC1) Then
             InterpolateColor(col, 0, 1, 2)
             InterpolateColor(col, 1, 0, 3)
         Else
             For i = 0 To 2
-                col(2, i) = (col(0, i) + col(1, i) + 1) / 2
-                col(3, i) = 255
+                col(2, i) = (col(0, i) + col(1, i) + 1) \ 2
+                col(3, i) = 0
             Next
         End If
 
@@ -188,9 +188,7 @@ Public Class DDSImage
                 block(d+2) = col(ind, 0)
                 If compressFormat = ddsCompressBC1 Then
                     If (c0 <= c1) And (ind = 3) Then
-                        block(d+3) = 255 '0
-                    Else
-                        block(d+3) = 255
+                        block(d+3) = 0
                     End If
                 End If
                 d += 4
@@ -221,8 +219,8 @@ Public Class DDSImage
 
         Dim off As UInteger = 128
 
-        For y = 0 To h/4-1
-            For x = 0 To w/4-1
+        For y = 0 To h\4-1
+            For x = 0 To w\4-1
                 For i = 0 To 63
                     block(i) = 255
                 Next
