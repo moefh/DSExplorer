@@ -73,6 +73,9 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DDSImage.vb" />
+    <Compile Include="FileTreeManager.vb" />
+    <Compile Include="FileUtil.vb" />
     <Compile Include="HexViewControl.vb">
       <SubType>Component</SubType>
     </Compile>
@@ -99,7 +102,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="TreeNodeSorter.vb" />
-    <Compile Include="WulfsExtractor.vb" />
+    <Compile Include="WulfsBNDBuild.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainWindow.resx">

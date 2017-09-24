@@ -32,13 +32,22 @@ Partial Class MainWindow
         Me.TabView = New System.Windows.Forms.TabControl()
         Me.TabPageHexView = New System.Windows.Forms.TabPage()
         Me.HexViewer = New DSExplorer.HexViewControl()
+        Me.TabPageDump = New System.Windows.Forms.TabPage()
+        Me.TextFileInfo = New System.Windows.Forms.TextBox()
+        Me.TabPageImage = New System.Windows.Forms.TabPage()
+        Me.PanelImage = New System.Windows.Forms.Panel()
         Me.txtInfo = New System.Windows.Forms.TextBox()
         Me.StatusStrip = New System.Windows.Forms.StatusStrip()
         Me.menuFiles = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.miExtract = New System.Windows.Forms.ToolStripMenuItem()
+        Me.miRebuild = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.miExpandAll = New System.Windows.Forms.ToolStripMenuItem()
+        Me.miExpandChildren = New System.Windows.Forms.ToolStripMenuItem()
+        Me.miCollapseChildren = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.miOpenFileLocation = New System.Windows.Forms.ToolStripMenuItem()
         Me.miReload = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PictureBoxImage = New System.Windows.Forms.PictureBox()
         CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).BeginInit
         Me.SplitContainer1.Panel1.SuspendLayout
         Me.SplitContainer1.Panel2.SuspendLayout
@@ -49,7 +58,11 @@ Partial Class MainWindow
         Me.SplitContainer2.SuspendLayout
         Me.TabView.SuspendLayout
         Me.TabPageHexView.SuspendLayout
+        Me.TabPageDump.SuspendLayout
+        Me.TabPageImage.SuspendLayout
+        Me.PanelImage.SuspendLayout
         Me.menuFiles.SuspendLayout
+        CType(Me.PictureBoxImage,System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
         'txtDataFolder
@@ -59,13 +72,13 @@ Partial Class MainWindow
         Me.txtDataFolder.Location = New System.Drawing.Point(83, 12)
         Me.txtDataFolder.MinimumSize = New System.Drawing.Size(50, 4)
         Me.txtDataFolder.Name = "txtDataFolder"
-        Me.txtDataFolder.Size = New System.Drawing.Size(754, 20)
+        Me.txtDataFolder.Size = New System.Drawing.Size(784, 20)
         Me.txtDataFolder.TabIndex = 0
         '
         'btnSelect
         '
         Me.btnSelect.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.btnSelect.Location = New System.Drawing.Point(843, 10)
+        Me.btnSelect.Location = New System.Drawing.Point(873, 10)
         Me.btnSelect.Name = "btnSelect"
         Me.btnSelect.Size = New System.Drawing.Size(89, 23)
         Me.btnSelect.TabIndex = 1
@@ -99,7 +112,7 @@ Partial Class MainWindow
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.txtInfo)
-        Me.SplitContainer1.Size = New System.Drawing.Size(920, 547)
+        Me.SplitContainer1.Size = New System.Drawing.Size(950, 547)
         Me.SplitContainer1.SplitterDistance = 383
         Me.SplitContainer1.TabIndex = 3
         '
@@ -116,8 +129,8 @@ Partial Class MainWindow
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.TabView)
-        Me.SplitContainer2.Size = New System.Drawing.Size(920, 383)
-        Me.SplitContainer2.SplitterDistance = 324
+        Me.SplitContainer2.Size = New System.Drawing.Size(950, 383)
+        Me.SplitContainer2.SplitterDistance = 357
         Me.SplitContainer2.TabIndex = 0
         '
         'treeFiles
@@ -127,7 +140,7 @@ Partial Class MainWindow
             Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.treeFiles.Location = New System.Drawing.Point(3, 3)
         Me.treeFiles.Name = "treeFiles"
-        Me.treeFiles.Size = New System.Drawing.Size(318, 377)
+        Me.treeFiles.Size = New System.Drawing.Size(351, 377)
         Me.treeFiles.TabIndex = 0
         '
         'TabView
@@ -136,10 +149,12 @@ Partial Class MainWindow
             Or System.Windows.Forms.AnchorStyles.Left)  _
             Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.TabView.Controls.Add(Me.TabPageHexView)
+        Me.TabView.Controls.Add(Me.TabPageDump)
+        Me.TabView.Controls.Add(Me.TabPageImage)
         Me.TabView.Location = New System.Drawing.Point(3, 3)
         Me.TabView.Name = "TabView"
         Me.TabView.SelectedIndex = 0
-        Me.TabView.Size = New System.Drawing.Size(586, 377)
+        Me.TabView.Size = New System.Drawing.Size(583, 377)
         Me.TabView.TabIndex = 0
         '
         'TabPageHexView
@@ -148,7 +163,7 @@ Partial Class MainWindow
         Me.TabPageHexView.Location = New System.Drawing.Point(4, 22)
         Me.TabPageHexView.Name = "TabPageHexView"
         Me.TabPageHexView.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPageHexView.Size = New System.Drawing.Size(578, 351)
+        Me.TabPageHexView.Size = New System.Drawing.Size(575, 351)
         Me.TabPageHexView.TabIndex = 1
         Me.TabPageHexView.Text = "Hex Viewer"
         Me.TabPageHexView.UseVisualStyleBackColor = true
@@ -164,8 +179,55 @@ Partial Class MainWindow
         Me.HexViewer.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
         Me.HexViewer.Location = New System.Drawing.Point(0, 0)
         Me.HexViewer.Name = "HexViewer"
-        Me.HexViewer.Size = New System.Drawing.Size(575, 348)
+        Me.HexViewer.Size = New System.Drawing.Size(572, 348)
         Me.HexViewer.TabIndex = 0
+        '
+        'TabPageDump
+        '
+        Me.TabPageDump.Controls.Add(Me.TextFileInfo)
+        Me.TabPageDump.Location = New System.Drawing.Point(4, 22)
+        Me.TabPageDump.Name = "TabPageDump"
+        Me.TabPageDump.Size = New System.Drawing.Size(575, 351)
+        Me.TabPageDump.TabIndex = 2
+        Me.TabPageDump.Text = "File Info"
+        Me.TabPageDump.UseVisualStyleBackColor = true
+        '
+        'TextFileInfo
+        '
+        Me.TextFileInfo.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.TextFileInfo.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.TextFileInfo.Location = New System.Drawing.Point(0, 0)
+        Me.TextFileInfo.Multiline = true
+        Me.TextFileInfo.Name = "TextFileInfo"
+        Me.TextFileInfo.ReadOnly = true
+        Me.TextFileInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.TextFileInfo.Size = New System.Drawing.Size(575, 351)
+        Me.TextFileInfo.TabIndex = 0
+        Me.TextFileInfo.WordWrap = false
+        '
+        'TabPageImage
+        '
+        Me.TabPageImage.Controls.Add(Me.PanelImage)
+        Me.TabPageImage.Location = New System.Drawing.Point(4, 22)
+        Me.TabPageImage.Name = "TabPageImage"
+        Me.TabPageImage.Size = New System.Drawing.Size(575, 351)
+        Me.TabPageImage.TabIndex = 3
+        Me.TabPageImage.Text = "Image"
+        Me.TabPageImage.UseVisualStyleBackColor = true
+        '
+        'PanelImage
+        '
+        Me.PanelImage.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.PanelImage.AutoScroll = true
+        Me.PanelImage.Controls.Add(Me.PictureBoxImage)
+        Me.PanelImage.Location = New System.Drawing.Point(0, 0)
+        Me.PanelImage.Name = "PanelImage"
+        Me.PanelImage.Size = New System.Drawing.Size(575, 351)
+        Me.PanelImage.TabIndex = 0
         '
         'txtInfo
         '
@@ -176,51 +238,83 @@ Partial Class MainWindow
         Me.txtInfo.Multiline = true
         Me.txtInfo.Name = "txtInfo"
         Me.txtInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.txtInfo.Size = New System.Drawing.Size(914, 157)
+        Me.txtInfo.Size = New System.Drawing.Size(944, 157)
         Me.txtInfo.TabIndex = 0
+        Me.txtInfo.WordWrap = false
         '
         'StatusStrip
         '
         Me.StatusStrip.Location = New System.Drawing.Point(0, 588)
         Me.StatusStrip.Name = "StatusStrip"
-        Me.StatusStrip.Size = New System.Drawing.Size(944, 22)
+        Me.StatusStrip.Size = New System.Drawing.Size(974, 22)
         Me.StatusStrip.TabIndex = 4
         Me.StatusStrip.Text = "StatusStrip1"
         '
         'menuFiles
         '
-        Me.menuFiles.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.miExtract, Me.ToolStripSeparator1, Me.miExpandAll, Me.miReload})
+        Me.menuFiles.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.miExtract, Me.miRebuild, Me.ToolStripSeparator1, Me.miExpandChildren, Me.miCollapseChildren, Me.ToolStripSeparator2, Me.miOpenFileLocation, Me.miReload})
         Me.menuFiles.Name = "menuFiles"
-        Me.menuFiles.Size = New System.Drawing.Size(136, 76)
+        Me.menuFiles.Size = New System.Drawing.Size(174, 148)
         '
         'miExtract
         '
         Me.miExtract.Name = "miExtract"
-        Me.miExtract.Size = New System.Drawing.Size(135, 22)
+        Me.miExtract.Size = New System.Drawing.Size(173, 22)
         Me.miExtract.Text = "Extract"
+        '
+        'miRebuild
+        '
+        Me.miRebuild.Name = "miRebuild"
+        Me.miRebuild.Size = New System.Drawing.Size(173, 22)
+        Me.miRebuild.Text = "Rebuild"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(132, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(170, 6)
         '
-        'miExpandAll
+        'miExpandChildren
         '
-        Me.miExpandAll.Name = "miExpandAll"
-        Me.miExpandAll.Size = New System.Drawing.Size(135, 22)
-        Me.miExpandAll.Text = "Expand All"
+        Me.miExpandChildren.Name = "miExpandChildren"
+        Me.miExpandChildren.Size = New System.Drawing.Size(173, 22)
+        Me.miExpandChildren.Text = "Expand Children"
+        '
+        'miCollapseChildren
+        '
+        Me.miCollapseChildren.Name = "miCollapseChildren"
+        Me.miCollapseChildren.Size = New System.Drawing.Size(173, 22)
+        Me.miCollapseChildren.Text = "Collapse Children"
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(170, 6)
+        '
+        'miOpenFileLocation
+        '
+        Me.miOpenFileLocation.Name = "miOpenFileLocation"
+        Me.miOpenFileLocation.Size = New System.Drawing.Size(173, 22)
+        Me.miOpenFileLocation.Text = "Open File Location"
         '
         'miReload
         '
         Me.miReload.Name = "miReload"
-        Me.miReload.Size = New System.Drawing.Size(135, 22)
+        Me.miReload.Size = New System.Drawing.Size(173, 22)
         Me.miReload.Text = "Reload Tree"
+        '
+        'PictureBoxImage
+        '
+        Me.PictureBoxImage.Location = New System.Drawing.Point(0, 0)
+        Me.PictureBoxImage.Name = "PictureBoxImage"
+        Me.PictureBoxImage.Size = New System.Drawing.Size(575, 351)
+        Me.PictureBoxImage.TabIndex = 0
+        Me.PictureBoxImage.TabStop = false
         '
         'MainWindow
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(944, 610)
+        Me.ClientSize = New System.Drawing.Size(974, 610)
         Me.Controls.Add(Me.StatusStrip)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.Label1)
@@ -239,7 +333,12 @@ Partial Class MainWindow
         Me.SplitContainer2.ResumeLayout(false)
         Me.TabView.ResumeLayout(false)
         Me.TabPageHexView.ResumeLayout(false)
+        Me.TabPageDump.ResumeLayout(false)
+        Me.TabPageDump.PerformLayout
+        Me.TabPageImage.ResumeLayout(false)
+        Me.PanelImage.ResumeLayout(false)
         Me.menuFiles.ResumeLayout(false)
+        CType(Me.PictureBoxImage,System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(false)
         Me.PerformLayout
 
@@ -257,8 +356,17 @@ End Sub
     Friend WithEvents miExtract As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
     Friend WithEvents miReload As ToolStripMenuItem
-    Friend WithEvents miExpandAll As ToolStripMenuItem
+    Friend WithEvents miExpandChildren As ToolStripMenuItem
     Friend WithEvents TabView As TabControl
     Friend WithEvents TabPageHexView As TabPage
     Friend WithEvents HexViewer As HexViewControl
+    Friend WithEvents TabPageDump As TabPage
+    Friend WithEvents TextFileInfo As TextBox
+    Friend WithEvents miRebuild As ToolStripMenuItem
+    Friend WithEvents miCollapseChildren As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
+    Friend WithEvents miOpenFileLocation As ToolStripMenuItem
+    Friend WithEvents TabPageImage As TabPage
+    Friend WithEvents PanelImage As Panel
+    Friend WithEvents PictureBoxImage As PictureBox
 End Class

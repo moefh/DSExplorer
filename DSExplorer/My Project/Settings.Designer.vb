@@ -65,6 +65,54 @@ Namespace My
                 Me("StartFolder") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0, 0")>  _
+        Public Property MainWindowSize() As Global.System.Drawing.Size
+            Get
+                Return CType(Me("MainWindowSize"),Global.System.Drawing.Size)
+            End Get
+            Set
+                Me("MainWindowSize") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0, 0")>  _
+        Public Property MainWindowPos() As Global.System.Drawing.Point
+            Get
+                Return CType(Me("MainWindowPos"),Global.System.Drawing.Point)
+            End Get
+            Set
+                Me("MainWindowPos") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property SavedSettings() As Boolean
+            Get
+                Return CType(Me("SavedSettings"),Boolean)
+            End Get
+            Set
+                Me("SavedSettings") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property MainWindowMax() As Boolean
+            Get
+                Return CType(Me("MainWindowMax"),Boolean)
+            End Get
+            Set
+                Me("MainWindowMax") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

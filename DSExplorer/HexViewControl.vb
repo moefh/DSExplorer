@@ -43,11 +43,7 @@ Public Class HexViewControl
         Dim backBrush as New SolidBrush(BackColor)
         e.Graphics.FillRectangle(backBrush, Me.ClientRectangle)
         If dataV Is Nothing Then
-            If DesignMode then
-                e.Graphics.DrawString("HexViewControl", Me.Font, foreBrush, 0, 0)
-            Else
-                e.Graphics.DrawString(Me.Text, Me.Font, foreBrush, 0, 0)
-            End If
+            e.Graphics.DrawString(Me.Text, Me.Font, foreBrush, 0, 0)
             Exit Sub
         End If
 
