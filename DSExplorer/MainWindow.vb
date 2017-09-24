@@ -203,11 +203,18 @@ Public Class MainWindow
                 Exit For
             End If
         Next
+        Dim ext As String = FileUtil.GetPathFileExt(filename).ToLower()
         
         TextFileInfo.Text = "Path: " & filename & vbNewLine & "Type: " & type & vbNewLine
 
         If type = "DDS " then
             UpdateImageTab(data)
+        Else If ext = "png" Or ext = "bmp" Then
+            Try
+                PictureBoxImage.Image = New Bitmap(filename)
+            Catch e AS Exception
+                TextFileInfo.Text += vbNewLine & "Error reading image: " & e.Message & vbNewLine
+            End Try
         Else
             UpdateImageTab(Nothing)
         End If

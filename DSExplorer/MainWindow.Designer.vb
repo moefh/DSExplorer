@@ -31,11 +31,11 @@ Partial Class MainWindow
         Me.treeFiles = New System.Windows.Forms.TreeView()
         Me.TabView = New System.Windows.Forms.TabControl()
         Me.TabPageHexView = New System.Windows.Forms.TabPage()
-        Me.HexViewer = New DSExplorer.HexViewControl()
         Me.TabPageDump = New System.Windows.Forms.TabPage()
         Me.TextFileInfo = New System.Windows.Forms.TextBox()
         Me.TabPageImage = New System.Windows.Forms.TabPage()
         Me.PanelImage = New System.Windows.Forms.Panel()
+        Me.PictureBoxImage = New System.Windows.Forms.PictureBox()
         Me.txtInfo = New System.Windows.Forms.TextBox()
         Me.StatusStrip = New System.Windows.Forms.StatusStrip()
         Me.menuFiles = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -47,7 +47,7 @@ Partial Class MainWindow
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.miOpenFileLocation = New System.Windows.Forms.ToolStripMenuItem()
         Me.miReload = New System.Windows.Forms.ToolStripMenuItem()
-        Me.PictureBoxImage = New System.Windows.Forms.PictureBox()
+        Me.HexViewer = New DSExplorer.HexViewControl()
         CType(Me.SplitContainer1,System.ComponentModel.ISupportInitialize).BeginInit
         Me.SplitContainer1.Panel1.SuspendLayout
         Me.SplitContainer1.Panel2.SuspendLayout
@@ -61,8 +61,8 @@ Partial Class MainWindow
         Me.TabPageDump.SuspendLayout
         Me.TabPageImage.SuspendLayout
         Me.PanelImage.SuspendLayout
-        Me.menuFiles.SuspendLayout
         CType(Me.PictureBoxImage,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.menuFiles.SuspendLayout
         Me.SuspendLayout
         '
         'txtDataFolder
@@ -168,20 +168,6 @@ Partial Class MainWindow
         Me.TabPageHexView.Text = "Hex Viewer"
         Me.TabPageHexView.UseVisualStyleBackColor = true
         '
-        'HexViewer
-        '
-        Me.HexViewer.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
-            Or System.Windows.Forms.AnchorStyles.Left)  _
-            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.HexViewer.AutoScroll = true
-        Me.HexViewer.AutoScrollMinSize = New System.Drawing.Size(1, 0)
-        Me.HexViewer.Data = Nothing
-        Me.HexViewer.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.HexViewer.Location = New System.Drawing.Point(0, 0)
-        Me.HexViewer.Name = "HexViewer"
-        Me.HexViewer.Size = New System.Drawing.Size(572, 348)
-        Me.HexViewer.TabIndex = 0
-        '
         'TabPageDump
         '
         Me.TabPageDump.Controls.Add(Me.TextFileInfo)
@@ -228,6 +214,15 @@ Partial Class MainWindow
         Me.PanelImage.Name = "PanelImage"
         Me.PanelImage.Size = New System.Drawing.Size(575, 351)
         Me.PanelImage.TabIndex = 0
+        '
+        'PictureBoxImage
+        '
+        Me.PictureBoxImage.BackColor = System.Drawing.Color.Black
+        Me.PictureBoxImage.Location = New System.Drawing.Point(0, 0)
+        Me.PictureBoxImage.Name = "PictureBoxImage"
+        Me.PictureBoxImage.Size = New System.Drawing.Size(575, 351)
+        Me.PictureBoxImage.TabIndex = 0
+        Me.PictureBoxImage.TabStop = false
         '
         'txtInfo
         '
@@ -302,13 +297,19 @@ Partial Class MainWindow
         Me.miReload.Size = New System.Drawing.Size(173, 22)
         Me.miReload.Text = "Reload Tree"
         '
-        'PictureBoxImage
+        'HexViewer
         '
-        Me.PictureBoxImage.Location = New System.Drawing.Point(0, 0)
-        Me.PictureBoxImage.Name = "PictureBoxImage"
-        Me.PictureBoxImage.Size = New System.Drawing.Size(575, 351)
-        Me.PictureBoxImage.TabIndex = 0
-        Me.PictureBoxImage.TabStop = false
+        Me.HexViewer.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.HexViewer.AutoScroll = true
+        Me.HexViewer.AutoScrollMinSize = New System.Drawing.Size(1, 0)
+        Me.HexViewer.Data = Nothing
+        Me.HexViewer.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.HexViewer.Location = New System.Drawing.Point(0, 0)
+        Me.HexViewer.Name = "HexViewer"
+        Me.HexViewer.Size = New System.Drawing.Size(572, 348)
+        Me.HexViewer.TabIndex = 0
         '
         'MainWindow
         '
@@ -337,8 +338,8 @@ Partial Class MainWindow
         Me.TabPageDump.PerformLayout
         Me.TabPageImage.ResumeLayout(false)
         Me.PanelImage.ResumeLayout(false)
-        Me.menuFiles.ResumeLayout(false)
         CType(Me.PictureBoxImage,System.ComponentModel.ISupportInitialize).EndInit
+        Me.menuFiles.ResumeLayout(false)
         Me.ResumeLayout(false)
         Me.PerformLayout
 

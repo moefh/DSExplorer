@@ -189,6 +189,8 @@ Public Class DDSImage
                 If compressFormat = ddsCompressBC1 Then
                     If (c0 <= c1) And (ind = 3) Then
                         block(d+3) = 0
+                    Else
+                        block(d+3) = 255
                     End If
                 End If
                 d += 4
@@ -196,10 +198,42 @@ Public Class DDSImage
         Next
     End Sub
 
-    Private Sub DecodeAlphaBlockBC2(ByVal off As UInteger, ByVal block As Byte())
+    Private Sub DecodeAlphaBlockBC3(ByVal off As UInteger, ByVal block As Byte())
+        Dim a(7) as UInteger
+        a(0) = data(off)
+        a(1) = data(off + 1)
+        off += 2
+        If a(0) > a(1) Then
+            For i = 1 To 6
+                a(i+1) = ((7-i)*a(0) + i*a(1)) \ 7
+            Next
+        Else
+            For i = 1 To 4
+                a(i+1) = ((5-i)*a(0) + i*a(1)) \ 5
+            Next
+            a(6) = 0
+            a(7) = 255
+        End If
+
+        Dim ind(15) as Byte
+        For i = 0 To 1
+            Dim v As UInt32 = GetU32(off) And &H00FFFFFF
+            For j = 0 To 7
+                ind(8*i+j) = (v >> (3*j)) And &B111
+            Next
+            off += 3
+        Next
+
+        Dim d As Integer = 0
+        For y = 0 To 3
+            For x = 0 To 3
+                block(4*d+3) = a(ind(d))
+                d += 1
+            Next
+        Next
     End Sub
 
-    Private Sub DecodeAlphaBlockBC3(ByVal off As UInteger, ByVal block As Byte())
+    Private Sub DecodeAlphaBlockBC2(ByVal off As UInteger, ByVal block As Byte())
     End Sub
 
     Private Sub CopyBlock(ByVal img As BitmapData, ByVal block As Byte(), ByVal sx As Integer, ByVal sy As Integer)
@@ -222,7 +256,7 @@ Public Class DDSImage
         For y = 0 To h\4-1
             For x = 0 To w\4-1
                 For i = 0 To 63
-                    block(i) = 255
+                    block(i) = 0
                 Next
 
                 Select Case compressFormat

@@ -45,7 +45,7 @@ Public Class FileUtil
     Public Shared Function GetPathFileExt(ByVal path As String) As String
         Dim dot As Integer = InStrRev(path, ".")
         If dot < 0 Then
-            Return path
+            Return ""
         End If
         Return Microsoft.VisualBasic.Right(path, path.Length - dot)
     End Function
